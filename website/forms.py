@@ -12,14 +12,7 @@ class TaskCreationForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = (
-            "content",
-            "start_date",
-            "status",
-            "tags",
-            "deadline"
-
-        )
+        fields = ("content", "start_date", "status", "tags", "deadline")
         widgets = {
             "deadline": forms.DateTimeInput(attrs={"type": "datetime-local"}),
         }

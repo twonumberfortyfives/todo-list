@@ -52,7 +52,9 @@ def task_status_switch(request, pk):
         else:
             task.status = True
         task.save()
-        return redirect("website:task-list")  # Redirect to the home page after toggling status
+        return redirect(
+            "website:task-list"
+        )  # Redirect to the home page after toggling status
 
     # Handle GET request
     return redirect("website:task-list")
