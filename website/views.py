@@ -1,7 +1,9 @@
 from django.http import HttpResponse, HttpRequest, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views import generic
+from django.utils.decorators import method_decorator
+from django.views import generic, View
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 from website.forms import TaskCreationForm
@@ -42,17 +44,17 @@ class TaskDeleteView(generic.DeleteView):
     success_url = reverse_lazy("website:task-list")
 
 
-@require_http_methods(["GET", "POST"])
-def task_status_switch(request, pk):
-    task = Task.objects.get(id=pk)
+@method_decorator(csrf_exempt, name='post')
+class TaskUpdateStatusView(View):
+    def get(self, request, pk):
+        task = Task.objects.get(id=pk)
+        return redirect("website:task-list")
 
-    if request.method == "POST":
+    def post(self, request, pk):
+        task = Task.objects.get(id=pk)
         task.status = not task.status  # Toggle the status
         task.save()
-        return redirect("website:task-list")  # Redirect to the task list page after toggling status
-
-    # Handle GET request by redirecting to the task list page
-    return redirect("website:task-list")
+        return redirect("website:task-list")
 
 
 class TagListView(generic.ListView):
