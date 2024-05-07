@@ -17,16 +17,22 @@
           <td>
             {{ task.id }}
           </td>
-          <td><a href="{% url 'catalog:book-detail' pk=task.id %}">{{ book.title }}</a>
+          <td><a href="#">{{ task.content }}</a>
           </td>
           <td>
-            <a href="{% url 'catalog:book-update' pk=task.id %}">UPDATE</a>
+            <a href="{% url 'website:task-update' pk=task.id %}">UPDATE</a>
           </td>
           <td>
-            <a href="{% url 'catalog:book-delete' pk=task.id %}">DELETE</a>
+            <a href="#">DELETE</a>
           </td>
           <td>
-            <a href="{% url 'catalog:book-delete' pk=task.id %}">DELETE</a>
+            <a href="#">
+              {% if task.status %}
+                Done
+              {% else %}
+                Not done
+              {% endif %}
+            </a>
           </td>
         </tr>
       {% endfor %}
