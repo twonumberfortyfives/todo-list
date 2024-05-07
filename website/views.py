@@ -47,16 +47,11 @@ def task_status_switch(request, pk):
     task = Task.objects.get(id=pk)
 
     if request.method == "POST":
-        if task.status:
-            task.status = False
-        else:
-            task.status = True
+        task.status = not task.status  # Toggle the status
         task.save()
-        return redirect(
-            "website:task-list"
-        )  # Redirect to the home page after toggling status
+        return redirect("website:task-list")  # Redirect to the task list page after toggling status
 
-    # Handle GET request
+    # Handle GET request by redirecting to the task list page
     return redirect("website:task-list")
 
 
