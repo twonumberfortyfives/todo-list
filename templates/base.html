@@ -1,34 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}To do list{% endblock %}</title>
-    {% block style %}
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-      <style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}To do list{% endblock %}</title>
+  {% block style %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <style>
         .sidebar {
-          height: 100vh;
-          length: 50vh;  
+            height: 100vh;
+            padding: 20px;
         }
-      </style>
-    {% endblock %}
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: #000;
+            transition: color 0.3s;
+        }
+
+        .sidebar a:hover {
+            color: #007bff;
+        }
+    </style>
+  {% endblock %}
 </head>
 <body>
-  <div class="container-fluid">
-    <div class="row">
-      {% block sidebar %}
-        <div class="col-md-3 col-sm-4 bg-dark">
-          {% include "includes/sidebar.html" %}
-        </div>
-      {% endblock %}
-      <div class="col-md-9 col-sm-8">
-        <div class="content p-3">
-          {% block content %}
-          {% endblock %}
-        </div>
+<div class="container-fluid">
+  <div class="row">
+    {% block sidebar %}
+      <div class="col-md-3 col-sm-4">
+        {% include "includes/sidebar.html" %}
+      </div>
+    {% endblock %}
+    <div class="col-md-9 col-sm-8">
+      <div class="content p-3">
+        {% block content %}
+        {% endblock %}
       </div>
     </div>
   </div>
+</div>
 </body>
 </html>
+
