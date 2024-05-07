@@ -4,9 +4,9 @@ from django.db import models
 
 
 class Task(models.Model):
-    content = models.TextField(max_length=500)
+    content = models.TextField(max_length=500, blank=False)
     start_date = models.DateTimeField(default=datetime.now)
-    deadline = models.DateTimeField()
+    deadline = models.DateTimeField(blank=True, null=True)
     status = models.BooleanField(default=False)
     tags = models.ManyToManyField("Tags", blank=True, related_name="tasks")
 
