@@ -5,7 +5,7 @@ from django.views import generic
 from django.views.decorators.http import require_http_methods
 
 from website.forms import TaskCreationForm
-from website.models import Task
+from website.models import Task, Tags
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -56,3 +56,29 @@ def task_status_switch(request, pk):
 
     # Handle GET request
     return redirect("website:task-list")
+
+
+class TagListView(generic.ListView):
+    model = Tags
+    template_name = "tags_list.html"
+    context_object_name = "tag_list"
+
+
+class TagCreateView(generic.CreateView):
+    model = Tags
+    template_name = "tags_form.html"
+    fields = "__all__"
+    success_url = reverse_lazy("website:tag-list")
+
+
+class TagUpdateView(generic.UpdateView):
+    model = Tags
+    template_name = "tags_form.html"
+    fields = "__all__"
+    success_url = reverse_lazy("website:tag-list")
+
+
+class TagDeleteView(generic.DeleteView):
+    model = Tags
+    template_name = "tag_delete_confirm.html"
+    success_url = reverse_lazy("website:tag-list")

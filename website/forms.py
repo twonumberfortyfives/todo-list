@@ -21,5 +21,5 @@ class TaskCreationForm(forms.ModelForm):
 
         )
         widgets = {
-            "deadline": forms.DateTimeInput(attrs={"type": "datetime-local"})
+            "deadline": forms.DateTimeInput(attrs={"type": "datetime-local"}),
         }

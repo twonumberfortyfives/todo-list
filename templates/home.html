@@ -34,12 +34,12 @@
                     <span class="text-muted d-block mb-2 small">
                       <strong>Deadline:</strong> {{ task.deadline }}
                     </span>
-                    {% for tag in task.tags.all %}
-                      <span class="text-muted d-block mb-2 small">
-                      Task tag: <strong>{{ tag }}</strong>
-                    </span>
-                    {% endfor %}
-                    <h6>
+                    <span class="text-muted d-block mb-2 small">
+                      <strong>Tags:</strong>
+                      {% for tag in task.tags.all %}
+                        {{ tag.name }}{% if not forloop.last %},{% endif %}
+                      {% endfor %}
+                      <h6>
                       Description: {{ task.content }}
                     </h6>
                     <div class="row align-items-center">
@@ -51,9 +51,11 @@
                           <div class="col-auto">
                             <div class="btn-group" role="group" aria-label="Task actions">
                               <a href="{% url 'website:task-update' pk=task.id %}"
-                                 class="btn btn-outline-primary mr-2">Update</a>
+                                 class="btn btn-outline-primary mr-2">Update
+                              </a>
                               <a href="{% url 'website:task-delete' pk=task.id %}"
-                                 class="btn btn-outline-danger">Delete</a>
+                                 class="btn btn-outline-danger">Delete
+                              </a>
                               {% if task.status %}
                                 <form action="{% url 'website:task-status-switch' pk=task.id %}" method="post">
                                   {% csrf_token %}
