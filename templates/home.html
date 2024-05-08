@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% include 'includes/sidebar.html' %}
+{% block style %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/task_list.css' %}">
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h1>Total tasks: {{ task_amount }} <a
+        href="{% url "website:task-create" %}"><strong>+</strong></a></h1>
+    <br>
+    {% if task_list %}
+      {% for task in task_list %}
+        <div class="row">
+          <div class="col-xl-12">
+            <div class="card mb-3 card-body custom-card">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                </div>
+                <div class="col">
+                  <div class="overflow-hidden flex-nowrap">
+                    <h6 class="mb-1">
+                      id: {{ task.id }}
+                      {% if task.status %}
+                        <strong class="text-primary">Done</strong>
+                      {% else %}
+                        <strong class="text-danger">Not done</strong>
+                      {% endif %}
+                    </h6>
+                    <span class="text-muted d-block mb-2 small">
+                      <strong>Created at:</strong> {{ task.start_date }}
+                    </span>
+                    <span class="text-muted d-block mb-2 small">
+                      <strong>Deadline:</strong> {{ task.deadline }}
+                    </span>
+                    <span class="text-muted d-block mb-2 small">
+                      <strong>Tags:</strong>
+                      {% for tag in task.tags.all %}
+                        {{ tag.name }}{% if not forloop.last %},{% endif %}
+                      {% endfor %}
+                      <h6>
+                      Description: {{ task.content }}
+                    </h6>
+                    <div class="row align-items-center">
+                      <div class="col-12">
+                        <div class="row align-items-center g-0">
+                          <div class="col">
+                            <!-- Progress bar -->
+                          </div>
+                          <div class="col-auto">
+                            <div class="btn-group" role="group" aria-label="Task actions">
+                              <a href="{% url 'website:task-update' pk=task.id %}"
+                                 class="btn btn-outline-primary mr-2">Update
+                              </a>
+                              <a href="{% url 'website:task-delete' pk=task.id %}"
+                                 class="btn btn-outline-danger">Delete
+                              </a>
+                              {% if task.status %}
+                                <form action="{% url 'website:task-status-switch' pk=task.id %}" method="post">
+                                  {% csrf_token %}
+                                  <input type="submit" value="Undo" class="btn btn-outline-danger ml-3">
+                                </form>
+                              {% elif not task.status %}
+                                <form action="{% url 'website:task-status-switch' pk=task.id %}" method="post">
+                                  {% csrf_token %}
+                                  <input type="submit" value="Complete" class="btn btn-outline-primary ml-3">
+                                </form>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <br>
+      <p>No tasks found</p>
+    {% endif %}
+  </div>
+{% endblock %}
